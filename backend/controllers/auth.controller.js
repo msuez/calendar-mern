@@ -23,7 +23,6 @@ const createNewUser = async ( req = request, res = response, next ) => {
         });
 
     } catch (error) {
-        console.log(error);
         return res.sendStatus(500);
     }
 }
@@ -39,10 +38,13 @@ const authenticateUser = async ( req = request, res = response, next ) => {
             available: true
         });
 
+        const newToken = await generateJWT(user.id, user.name);
+
         return res.json({
             ok: true,
             msg: 'Authentication',
             user,
+            token: newToken
         });
 
     } catch (error) {

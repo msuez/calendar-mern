@@ -14,11 +14,12 @@ const createNewUser = async ( req = request, res = response, next ) => {
 
         // Generate JWT
         const token = await generateJWT(user.id, user.name);
-
+        
         return res.status(201).json({
             ok: true,
             msg: 'User created.',
-            user,
+            uid: user.id,
+            name: user.name,
             token
         });
 
@@ -39,11 +40,12 @@ const authenticateUser = async ( req = request, res = response, next ) => {
         });
 
         const newToken = await generateJWT(user.id, user.name);
-
+        
         return res.json({
             ok: true,
             msg: 'Authentication',
-            user,
+            uid: user.id,
+            name: user.name,
             token: newToken
         });
 
@@ -59,11 +61,11 @@ const renewAuthToken = async ( req = request, res = response, next ) => {
 
         const newToken = await generateJWT();
 
-        console.log(newToken);
-
         return res.json({
             ok: true,
             msg: 'Renew token',
+            uid,
+            name,
             token: newToken
         });
 

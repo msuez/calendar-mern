@@ -1,0 +1,9 @@
+
+
+enterprise: 
+  - name: 'SuezTex'
+    businesses:
+      - name: 'Zara'
+        branches:
+          - name: 'Zara 01'
+            address: 'Av. Avellaneda'

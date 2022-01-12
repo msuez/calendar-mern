@@ -6,7 +6,7 @@ import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventClearActiveEvent, eventEventUpdated } from '../../actions/events';
+import { eventClearActiveEvent, eventStartAddNew, eventStartUpdate } from '../../actions/events';
 
 const customStyles = {
     content: {
@@ -33,9 +33,10 @@ const initEvent = {
 
 export const CalendarModal = () => {
 
-    const {modalOpen} = useSelector( state => state.ui );
+    const { modalOpen } = useSelector( state => state.ui );
     const {activeEvent} = useSelector( state => state.calendar );
     const dispatch = useDispatch();
+
     const [dateStart, setDateStart] = useState(now.toDate());
     const [dateEnd, setDateEnd] = useState(nowPlus1.toDate());
     const [titleValid, setTitleValid] = useState(true);
@@ -43,7 +44,7 @@ export const CalendarModal = () => {
     const [formValues, setFormValues] = useState(initEvent);
 
     const { notes, title, start, end } = formValues;
-
+    
     useEffect(() => {
         
         if(activeEvent) {
@@ -94,22 +95,13 @@ export const CalendarModal = () => {
         }
 
         if( title.trim().length < 2 ) {
-            return;
+            return setTitleValid(false);
         }
 
-        // TODO Save to database
-
         if( activeEvent ) {
-            dispatch(eventEventUpdated(formValues));
+            dispatch(eventStartUpdate(formValues));
         } else {
-            dispatch(eventAddNew({
-                ...formValues,
-                id: new Date().getTime(),
-                user: {
-                    _id: '123',
-                    name: 'Matias'
-                }
-            }));
+            dispatch(eventStartAddNew(formValues));
         }
         
         setTitleValid(true);

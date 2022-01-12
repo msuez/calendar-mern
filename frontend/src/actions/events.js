@@ -128,3 +128,7 @@ export const eventStartDelete = () => {
 
     }
 }
+
+export const eventLogout = () => ({
+    type: types.eventLogout,
+});
